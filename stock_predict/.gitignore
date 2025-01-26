@@ -1,7 +1,9 @@
-# Windows関連の不要なフォルダを除外
-AppData/
-*.log
-*.tmp
-*.bak
-*.swp
-Thumbs.db
+AppData/ 
+*.log 
+*.tmp 
+*.bak 
+*.swp 
+__pycache__/ 
+.vscode/ 
+.idea/ 
+.DS_Store 
