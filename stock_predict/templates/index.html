@@ -1,0 +1,59 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>株価予測アプリ</title>
+</head>
+<body>
+    <h1>株価予測アプリ</h1>
+    <form method="POST">
+        <label for="tickers">ティッカーシンボル (カンマ区切り, 最大4つ):</label>
+        <input type="text" id="tickers" name="tickers" placeholder="例: AAPL, GOOG, MSFT" required><br>
+        
+        <label for="start_date">開始日:</label>
+        <input type="date" id="start_date" name="start_date" required><br>
+        
+        <label for="end_date">終了日:</label>
+        <input type="date" id="end_date" name="end_date" required><br>
+        
+        <label for="forecast_days">予測日数:</label>
+        <input type="number" id="forecast_days" name="forecast_days" min="1" max="365" value="30" required><br>
+        
+        <button type="submit">予測を実行</button>
+    </form>
+
+    {% if error_message %}
+        <p style="color: red;">エラー: {{ error_message }}</p>
+    {% endif %}
+
+    {% for ticker, plot in plots %}
+        <h2>{{ ticker }} の予測結果</h2>
+        <img src="data:image/png;base64,{{ plot }}" alt="Forecast Plot">
+    {% endfor %}
+
+    {% if stats %}
+        <h2>予測統計データ</h2>
+        <table border="1">
+            <tr>
+                <th>銘柄</th>
+                <th>平均</th>
+                <th>中央値</th>
+                <th>最大値</th>
+                <th>最小値</th>
+                <th>標準偏差</th>
+            </tr>
+            {% for stat in stats %}
+                <tr>
+                    <td>{{ stat.ticker }}</td>
+                    <td>{{ stat.mean }}</td>
+                    <td>{{ stat.median }}</td>
+                    <td>{{ stat.max }}</td>
+                    <td>{{ stat.min }}</td>
+                    <td>{{ stat.std_dev }}</td>
+                </tr>
+            {% endfor %}
+        </table>
+    {% endif %}
+</body>
+</html>
